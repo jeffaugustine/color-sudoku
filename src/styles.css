@@ -1,26 +1,59 @@
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background: #333;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background: #333;
 }
 
 .grid {
-    display: grid;
-    grid-template-columns: repeat(4, 150px);
-    grid-template-rows: repeat(4, 150px);
-    gap: 5px;
-    touch-action: manipulation;
+  display: grid;
+  grid-template-columns: repeat(4, 150px);
+  grid-template-rows: repeat(4, 150px);
+  gap: 8px;
+  touch-action: manipulation;
 }
 
 .tile {
-    width: 150px;
-    height: 150px;
-    background-color: #aaa;
-    cursor: pointer;
-    border: 2px solid #333;
-    box-sizing: border-box;
-    border-radius: 10px;
+  box-sizing: border-box;
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
+  background-color: #aaa;
+  transition: background-color 0.5s ease;
+  background-clip: padding-box;
+  /* border: 2px solid #333; */
+  border-radius: 12px;
+}
+
+.button {
+  box-sizing: border-box;
+  margin: 2px;
+  padding: 20px 30px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #aaa;
+  transition: background-color 0.5s ease;
+  border: 2px solid #333;
+  border-radius: 8px;
+}
+
+.tile:hover,.button:hover {
+   filter: brightness(70%);
+}
+
+.split {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.top {
+  flex: 3;
+}
+
+.bottom {
+  flex: 1;
 }
