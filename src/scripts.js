@@ -1,8 +1,8 @@
 const debug = true;
 const gridSize = 4;
 const triangular = gridSize * (gridSize + 1) / 2;
-const colors = ["#aaa", "#6dd3ce", "#c8e9a0", "#f7a278", "#a13d63"];
-const gridState = Array.from({ length: gridSize }, () => Array(gridSize).fill(0));
+const colors = ["#aaa", "#6dd3ce", "#c8e9a0", "#f7a278", "#a13d63", "green"];
+let gridState = Array.from({ length: gridSize }, () => Array(gridSize).fill(0));
 const grid = document.getElementById("grid");
 init();
 
@@ -14,20 +14,37 @@ function init() {
             tile.dataset.row = row;
             tile.dataset.col = col;
 
-            tile.addEventListener("click", () => {
-                const r = parseInt(tile.dataset.row);
-                const c = parseInt(tile.dataset.col);
+            // Slow on mobile
+            // tile.addEventListener("click", () => {
+            //     const r = parseInt(tile.dataset.row);
+            //     const c = parseInt(tile.dataset.col);
 
-                // Update game state
-                gridState[r][c] = (gridState[r][c] + 1) % colors.length;
-                tile.style.backgroundColor = colors[gridState[r][c]];
-                this.haveWeWon();
+            //     // Update game state
+            //     gridState[r][c] = (gridState[r][c] + 1) % colors.length;
+            //     tile.style.backgroundColor = colors[gridState[r][c]];
+            //     this.haveWeWon();
 
-            });
+            // });
 
             grid.appendChild(tile);
         }
     }
+
+    // Improve mobile performance
+    grid.addEventListener("pointerdown", (e) => {
+
+        if (!e.target.classList.contains("tile")) return;
+
+        const r = +e.target.dataset.row;
+        const c = +e.target.dataset.col;
+
+        // Update game state
+        gridState[r][c] = (gridState[r][c] + 1) % (colors.length - 1);
+        e.target.style.backgroundColor = colors[gridState[r][c]];
+        haveWeWon();
+
+    }, { passive: true });
+
 }
 
 function haveWeWon() {
@@ -42,7 +59,7 @@ function haveWeWon() {
     const cornersSolved = cornersSum.every(sum => sum === triangular);
 
     const win = rowsSolved && colSolved && cornersSolved;
-1
+
     if (debug) {
         console.clear();
         console.table(gridState);
