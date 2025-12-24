@@ -1,0 +1,22 @@
+{
+  "name": "guessle",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "browser-sync start -s -f . --no-notify --port 9000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeffaugustine/color-sudoku.git"
+  },
+  "author": "Jeff Augustine",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jeffaugustine/color-sudoku/issues"
+  },
+  "homepage": "https://github.com/jeffaugustine/color-sudoku#readme",
+  "devDependencies": {
+    "browser-sync": "^3.0.4"
+  }
+}
