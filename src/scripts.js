@@ -9,33 +9,34 @@ const colors = ["#aaa", "#6dd3ce", "#c8e9a0", "#f7a278", "#a13d63"];
 // let puzzle = [[0, 0, 0, 4], [3, 0, 0, 0], [4, 0, 0, 3], [0, 3, 4, 0]];
 let puzzle = generatePuzzle();
 let gridState = structuredClone(puzzle);
+let streak = 0;
 
 init();
 
 function init() {
   const grid = document.getElementById("grid");
-  
+
   // Add center lines
   const centerLine = document.createElement("div");
   centerLine.style.position = "absolute";
   centerLine.style.pointerEvents = "none";
   grid.style.position = "relative";
-  
+
   const lineColor = "#fff";
   const lineWidth = "1px";
   const center = gridSize / 2;
   const tileSize = 100 / gridSize;
-  
+
   // Vertical line
   const vLine = document.createElement("div");
   vLine.style.cssText = `position: absolute; width: ${lineWidth}; height: 100%; left: ${center * tileSize}%; top: 0; background: ${lineColor};`;
   grid.appendChild(vLine);
-  
+
   // Horizontal line
   const hLine = document.createElement("div");
   hLine.style.cssText = `position: absolute; height: ${lineWidth}; width: 100%; top: ${center * tileSize}%; left: 0; background: ${lineColor};`;
   grid.appendChild(hLine);
-  
+
   for (let row = 0; row < gridSize; row++) {
     for (let col = 0; col < gridSize; col++) {
       const tile = document.createElement("div");
@@ -137,6 +138,10 @@ function sumCornerBlocks(k = gridSize / 2) {
 async function animateWin() {
   touchable = false;
   let spiralizer = spiralInCoordinates();
+
+  streak++;
+  document.getElementById("streak-count").textContent = streak;
+
   for (let i = 0; i < spiralizer.length; i++) {
     const [row, col] = spiralizer[i];
     const tile = document.querySelector(`.tile[data-row="${row}"][data-col="${col}"]`);
@@ -238,6 +243,10 @@ function spiralOutCoordinates(startRow = -1, startCol = -1) {
 // Restart button
 async function restart() {
   console.log("Restart");
+
+  streak = 0;
+  document.getElementById("streak-count").textContent = streak;
+
   gridState = structuredClone(puzzle); // deep copy
 
   for (let row = 0; row < gridSize; row++) {
@@ -258,6 +267,7 @@ async function restart() {
 
 async function levelUp() {
   console.log("Level up!");
+  
   puzzle = generatePuzzle();
   gridState = structuredClone(puzzle); // deep copy
 
@@ -281,6 +291,9 @@ async function levelUp() {
 // New game button
 function mulligan() {
   console.log("mulligan");
+
+  streak = 0;
+  document.getElementById("streak-count").textContent = streak;
 
   puzzle = generatePuzzle();
   gridState = structuredClone(puzzle); // deep copy
