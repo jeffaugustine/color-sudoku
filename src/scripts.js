@@ -14,6 +14,28 @@ init();
 
 function init() {
   const grid = document.getElementById("grid");
+  
+  // Add center lines
+  const centerLine = document.createElement("div");
+  centerLine.style.position = "absolute";
+  centerLine.style.pointerEvents = "none";
+  grid.style.position = "relative";
+  
+  const lineColor = "#fff";
+  const lineWidth = "1px";
+  const center = gridSize / 2;
+  const tileSize = 100 / gridSize;
+  
+  // Vertical line
+  const vLine = document.createElement("div");
+  vLine.style.cssText = `position: absolute; width: ${lineWidth}; height: 100%; left: ${center * tileSize}%; top: 0; background: ${lineColor};`;
+  grid.appendChild(vLine);
+  
+  // Horizontal line
+  const hLine = document.createElement("div");
+  hLine.style.cssText = `position: absolute; height: ${lineWidth}; width: 100%; top: ${center * tileSize}%; left: 0; background: ${lineColor};`;
+  grid.appendChild(hLine);
+  
   for (let row = 0; row < gridSize; row++) {
     for (let col = 0; col < gridSize; col++) {
       const tile = document.createElement("div");

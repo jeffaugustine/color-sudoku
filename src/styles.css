@@ -6,6 +6,7 @@ body {
   height: 100vh;
   margin: 0;
   background: #333;
+  user-select: none;
 }
 
 .grid {
@@ -14,6 +15,7 @@ body {
   grid-template-rows: repeat(4, 150px);
   gap: 8px;
   touch-action: manipulation;
+  user-select: none;
 }
 
 .tile {
@@ -26,6 +28,7 @@ body {
   background-clip: padding-box;
   /* border: 2px solid #333; */
   border-radius: 12px;
+  user-select: none;
 }
 
 .button {
@@ -41,4 +44,5 @@ body {
   border: 2px solid #333;
   border-radius: 8px;
   font-variant: small-caps;
+  user-select: none;
 }
