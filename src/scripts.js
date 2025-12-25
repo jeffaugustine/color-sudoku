@@ -31,7 +31,7 @@ function init() {
       tile.style.backgroundColor = colors[gridState[row][col]];
       if (gridState[row][col] > 0) {
         tile.style.pointerEvents = 'none';
-        tile.style.filter = 'brightness(80%)';
+        // tile.style.filter = 'brightness(80%)';
         tile.style.border = '4px dashed #fff';
       }
     }
@@ -122,7 +122,7 @@ async function animateWin() {
     // tile.style.backgroundColor = colors[gridState[row][col]];
     tile.style.backgroundColor = "green";
     tile.style.pointerEvents = 'none';
-    tile.style.filter = 'brightness(80%)';
+    // tile.style.filter = 'brightness(80%)';
     await sleep(200);
   }
   return;
@@ -223,7 +223,7 @@ async function restart() {
       const tile = document.querySelector(`.tile[data-row="${row}"][data-col="${col}"]`);
       if (gridState[row][col] > 0) {
         tile.style.pointerEvents = 'none';
-        tile.style.filter = 'brightness(80%)';
+        // tile.style.filter = 'brightness(80%)';
         tile.style.border = '4px dashed #fff';
       } else {
         tile.removeAttribute("style");
@@ -245,7 +245,7 @@ async function levelUp() {
     const tile = document.querySelector(`.tile[data-row="${row}"][data-col="${col}"]`);
     if (gridState[row][col] > 0) {
       tile.style.pointerEvents = 'none';
-      tile.style.filter = 'brightness(80%)';
+      // tile.style.filter = 'brightness(80%)';
       tile.style.border = '4px dashed #fff';
     } else {
       tile.removeAttribute("style");
@@ -268,7 +268,7 @@ function mulligan() {
       const tile = document.querySelector(`.tile[data-row="${row}"][data-col="${col}"]`);
       if (gridState[row][col] > 0) {
         tile.style.pointerEvents = 'none';
-        tile.style.filter = 'brightness(80%)';
+        // tile.style.filter = 'brightness(80%)';
         tile.style.border = '4px dashed #fff';
       } else {
         tile.removeAttribute("style");
