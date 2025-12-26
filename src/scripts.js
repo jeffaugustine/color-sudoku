@@ -84,6 +84,9 @@ function init() {
     }
   }, { passive: false });
 
+  streak = parseInt(localStorage.getItem("coloudoku-streak")) || 0;
+  streakDiv.textContent = streak;
+
 }
 
 async function haveWeWon() {
@@ -145,6 +148,7 @@ async function animateWin() {
   let spiralizer = spiralInCoordinates();
 
   streak++;
+  localStorage.setItem("coloudoku-streak", streak);
   streakDiv.textContent = streak;
 
   for (let i = 0; i < spiralizer.length; i++) {
@@ -247,9 +251,6 @@ function spiralOutCoordinates(startRow = -1, startCol = -1) {
 async function restart() {
   console.log("Restart");
 
-  streak = 0;
-  streakDiv.textContent = streak;
-
   gridState = structuredClone(puzzle); // deep copy
 
   for (let row = 0; row < gridSize; row++) {
@@ -294,6 +295,7 @@ function mulligan() {
   console.log("mulligan");
 
   streak = 0;
+  localStorage.setItem("coloudoku-streak", streak);
   streakDiv.textContent = streak;
 
   puzzle = generatePuzzle();
