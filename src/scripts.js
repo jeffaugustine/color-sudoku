@@ -6,64 +6,63 @@ const gridSize = 4;
 const triangular = gridSize * (gridSize + 1) / 2;
 
 const colors = ["#aaa", "#6dd3ce", "#c8e9a0", "#f7a278", "#a13d63"];
-// let solution = [[1, 2, 3, 4], [3, 4, 1, 2], [4, 1, 2, 3], [2, 3, 4, 1]];
-// let puzzle = [[0, 0, 0, 4], [3, 0, 0, 0], [4, 0, 0, 3], [0, 3, 4, 0]];
 let puzzle = generatePuzzle();
 let gridState = structuredClone(puzzle);
+
+const streakDiv = document.getElementById("streak-count");
 let streak = 0;
 
 init();
 
 function init() {
-  const grid = document.getElementById("grid");
+  const gridDiv = document.getElementById("grid");
 
   // Add center lines
-  const centerLine = document.createElement("div");
-  centerLine.style.position = "absolute";
-  centerLine.style.pointerEvents = "none";
-  grid.style.position = "relative";
-
   const lineColor = "#fff";
   const lineWidth = "1px";
   const center = gridSize / 2;
   const tileSize = 100 / gridSize;
 
+  const centerLineDiv = document.createElement("div");
+  centerLineDiv.style.position = "absolute";
+  centerLineDiv.style.pointerEvents = "none";
+  gridDiv.style.position = "relative";
+
   // Vertical line
-  const vLine = document.createElement("div");
-  vLine.style.cssText = `position: absolute; width: ${lineWidth}; height: 100%; left: ${center * tileSize}%; top: 0; background: ${lineColor};`;
-  grid.appendChild(vLine);
+  const vLineDiv = document.createElement("div");
+  vLineDiv.style.cssText = `position: absolute; width: ${lineWidth}; height: 100%; left: ${center * tileSize}%; top: 0; background: ${lineColor};`;
+  gridDiv.appendChild(vLineDiv);
 
   // Horizontal line
-  const hLine = document.createElement("div");
-  hLine.style.cssText = `position: absolute; height: ${lineWidth}; width: 100%; top: ${center * tileSize}%; left: 0; background: ${lineColor};`;
-  grid.appendChild(hLine);
+  const hLineDiv = document.createElement("div");
+  hLineDiv.style.cssText = `position: absolute; height: ${lineWidth}; width: 100%; top: ${center * tileSize}%; left: 0; background: ${lineColor};`;
+  gridDiv.appendChild(hLineDiv);
 
   for (let row = 0; row < gridSize; row++) {
     for (let col = 0; col < gridSize; col++) {
-      const tile = document.createElement("div");
-      tile.className = "tile";
-      tile.dataset.row = row;
-      tile.dataset.col = col;
+      const tileDiv = document.createElement("div");
+      tileDiv.className = "tile";
+      tileDiv.dataset.row = row;
+      tileDiv.dataset.col = col;
 
-      grid.appendChild(tile);
+      gridDiv.appendChild(tileDiv);
     }
   }
 
   for (let row = 0; row < gridSize; row++) {
     for (let col = 0; col < gridSize; col++) {
-      const tile = document.querySelector(`.tile[data-row="${row}"][data-col="${col}"]`);
-      tile.style.backgroundColor = colors[gridState[row][col]];
+      const tileDiv = document.querySelector(`.tile[data-row="${row}"][data-col="${col}"]`);
+      tileDiv.style.backgroundColor = colors[gridState[row][col]];
       if (gridState[row][col] > 0) {
-        tile.style.pointerEvents = 'none';
-        // tile.style.filter = 'brightness(80%)';
-        tile.style.border = '4px dashed #fff';
+        tileDiv.style.pointerEvents = 'none';
+        tileDiv.style.border = '4px dashed #fff';
       }
     }
   }
   touchable = true;
 
   // Improve mobile performance with pointerdown over onclick
-  grid.addEventListener("pointerdown", (e) => {
+  gridDiv.addEventListener("pointerdown", (e) => {
     if (!e.target.classList.contains("tile")) return;
 
     const now = Date.now();
@@ -146,16 +145,14 @@ async function animateWin() {
   let spiralizer = spiralInCoordinates();
 
   streak++;
-  document.getElementById("streak-count").textContent = streak;
+  streakDiv.textContent = streak;
 
   for (let i = 0; i < spiralizer.length; i++) {
     const [row, col] = spiralizer[i];
-    const tile = document.querySelector(`.tile[data-row="${row}"][data-col="${col}"]`);
-    tile.removeAttribute("style");
-    // tile.style.backgroundColor = colors[gridState[row][col]];
-    tile.style.backgroundColor = "green";
-    tile.style.pointerEvents = 'none';
-    // tile.style.filter = 'brightness(80%)';
+    const tileDiv = document.querySelector(`.tile[data-row="${row}"][data-col="${col}"]`);
+    tileDiv.removeAttribute("style");
+    tileDiv.style.backgroundColor = "green";
+    tileDiv.style.pointerEvents = 'none';
     await sleep(200);
   }
   return;
@@ -251,21 +248,20 @@ async function restart() {
   console.log("Restart");
 
   streak = 0;
-  document.getElementById("streak-count").textContent = streak;
+  streakDiv.textContent = streak;
 
   gridState = structuredClone(puzzle); // deep copy
 
   for (let row = 0; row < gridSize; row++) {
     for (let col = 0; col < gridSize; col++) {
-      const tile = document.querySelector(`.tile[data-row="${row}"][data-col="${col}"]`);
+      const tileDiv = document.querySelector(`.tile[data-row="${row}"][data-col="${col}"]`);
       if (gridState[row][col] > 0) {
-        tile.style.pointerEvents = 'none';
-        // tile.style.filter = 'brightness(80%)';
-        tile.style.border = '4px dashed #fff';
+        tileDiv.style.pointerEvents = 'none';
+        tileDiv.style.border = '4px dashed #fff';
       } else {
-        tile.removeAttribute("style");
+        tileDiv.removeAttribute("style");
       }
-      tile.style.backgroundColor = colors[gridState[row][col]];
+      tileDiv.style.backgroundColor = colors[gridState[row][col]];
     }
   }
   touchable = true;
@@ -280,15 +276,14 @@ async function levelUp() {
   let spiralizer = spiralOutCoordinates(1, 1);
   for (let i = 0; i < spiralizer.length; i++) {
     const [row, col] = spiralizer[i];
-    const tile = document.querySelector(`.tile[data-row="${row}"][data-col="${col}"]`);
+    const tileDiv = document.querySelector(`.tile[data-row="${row}"][data-col="${col}"]`);
     if (gridState[row][col] > 0) {
-      tile.style.pointerEvents = 'none';
-      // tile.style.filter = 'brightness(80%)';
-      tile.style.border = '4px dashed #fff';
+      tileDiv.style.pointerEvents = 'none';
+      tileDiv.style.border = '4px dashed #fff';
     } else {
-      tile.removeAttribute("style");
+      tileDiv.removeAttribute("style");
     }
-    tile.style.backgroundColor = colors[gridState[row][col]];
+    tileDiv.style.backgroundColor = colors[gridState[row][col]];
     await sleep(200);
   }
   touchable = true;
@@ -299,38 +294,22 @@ function mulligan() {
   console.log("mulligan");
 
   streak = 0;
-  document.getElementById("streak-count").textContent = streak;
+  streakDiv.textContent = streak;
 
   puzzle = generatePuzzle();
   gridState = structuredClone(puzzle); // deep copy
 
   for (let row = 0; row < gridSize; row++) {
     for (let col = 0; col < gridSize; col++) {
-      const tile = document.querySelector(`.tile[data-row="${row}"][data-col="${col}"]`);
+      const tileDiv = document.querySelector(`.tile[data-row="${row}"][data-col="${col}"]`);
       if (gridState[row][col] > 0) {
-        tile.style.pointerEvents = 'none';
-        // tile.style.filter = 'brightness(80%)';
-        tile.style.border = '4px dashed #fff';
+        tileDiv.style.pointerEvents = 'none';
+        tileDiv.style.border = '4px dashed #fff';
       } else {
-        tile.removeAttribute("style");
+        tileDiv.removeAttribute("style");
       }
-      tile.style.backgroundColor = colors[gridState[row][col]];
+      tileDiv.style.backgroundColor = colors[gridState[row][col]];
     }
   }
 
 }
-
-// Win button
-// function win() {
-//   console.log("win");
-//   gridState = [[1, 2, 3, 4], [3, 4, 1, 2], [4, 1, 2, 3], [2, 3, 4, 1]];
-
-//   for (let row = 0; row < gridSize; row++) {
-//     for (let col = 0; col < gridSize; col++) {
-//       const tile = document.querySelector(`.tile[data-row="${row}"][data-col="${col}"]`);
-//       tile.style.backgroundColor = colors[gridState[row][col]];
-//     }
-//   }
-
-//   haveWeWon();
-// }
