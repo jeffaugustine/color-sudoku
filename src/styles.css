@@ -6,6 +6,7 @@ body {
   height: 100vh;
   margin: 0;
   background: #333;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 body,
@@ -43,6 +44,7 @@ body,
 }
 
 .button {
+  font-family: 'Times New Roman', Times, serif;
   margin-top: 20px;
   box-sizing: border-box;
   padding: 20px 30px;
@@ -62,4 +64,33 @@ body,
   color: #fff;
   font-size: 30px;
   font-variant: small-caps;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(4, 20vw);
+    grid-template-rows: repeat(4, 20vw);
+    gap: 8px;
+  }
+
+  .tile {
+    width: 20vw;
+    height: 20vw;
+    border-radius: 12px;
+  }
+
+  .button {
+    margin-top: 20px;
+    padding: 20px 30px;
+    width: 40vw;
+    font-size: 5vw;
+    border: 2px solid #333;
+    border-radius: 8px;
+  }
+
+  .streak {
+    margin-top: 20px;
+    font-size: 8vw;
+  }
 }
