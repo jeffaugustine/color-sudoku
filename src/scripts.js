@@ -1,5 +1,6 @@
 const debug = true;
 let touchable = false;
+let lastTap = 0;
 
 const gridSize = 4;
 const triangular = gridSize * (gridSize + 1) / 2;
@@ -63,21 +64,26 @@ function init() {
 
   // Improve mobile performance with pointerdown over onclick
   grid.addEventListener("pointerdown", (e) => {
-
     if (!e.target.classList.contains("tile")) return;
+
+    const now = Date.now();
+    // Attempt to prevent mobile browser default controls
+    if (now - lastTap < 300) {
+      e.preventDefault();
+    }
+    lastTap = now;
 
     const r = +e.target.dataset.row;
     const c = +e.target.dataset.col;
 
-    // Update game state
     if (touchable) {
+      e.preventDefault();
       gridState[r][c] = (gridState[r][c] + 1) % (colors.length);
       e.target.style.backgroundColor = colors[gridState[r][c]];
 
       haveWeWon();
     }
-
-  }, { passive: true });
+  }, { passive: false });
 
 }
 
@@ -267,7 +273,7 @@ async function restart() {
 
 async function levelUp() {
   console.log("Level up!");
-  
+
   puzzle = generatePuzzle();
   gridState = structuredClone(puzzle); // deep copy
 
